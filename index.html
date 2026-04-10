@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Complex World — Full-Service IT-Partner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #090c12;
+      --bg2:      #0d1120;
+      --surface:  #111827;
+      --border:   rgba(255,255,255,0.07);
+      --accent:   #6c63ff;
+      --accent2:  #00d4ff;
+      --accent3:  #ff6b6b;
+      --text:     #e8eaf0;
+      --muted:    #8892a4;
+      --radius:   14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Blob canvas ── */
+    .blobs {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.18;
+      animation: drift 20s ease-in-out infinite alternate;
+    }
+    .blob1 { width: 600px; height: 600px; background: var(--accent);  top: -150px; left: -150px; animation-duration: 22s; }
+    .blob2 { width: 500px; height: 500px; background: var(--accent2); bottom: -100px; right: -100px; animation-duration: 18s; animation-delay: -6s; }
+    .blob3 { width: 400px; height: 400px; background: var(--accent3); top: 40%; left: 50%; animation-duration: 26s; animation-delay: -12s; }
+
+    @keyframes drift {
+      0%   { transform: translate(0, 0) scale(1); }
+      50%  { transform: translate(40px, -30px) scale(1.05); }
+      100% { transform: translate(-30px, 50px) scale(0.95); }
+    }
+
+    /* ── Layout ── */
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+      background: rgba(9, 12, 18, 0.8);
+      backdrop-filter: blur(16px);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .btn-nav {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-nav:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 120px 0 100px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(108, 99, 255, 0.15);
+      border: 1px solid rgba(108, 99, 255, 0.35);
+      color: #a09bff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 999px;
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 44px;
+      line-height: 1.7;
+    }
+    .hero-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #8b85ff);
+      color: #fff;
+      padding: 14px 32px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 30px rgba(108,99,255,0.35);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(108,99,255,0.5); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      padding: 14px 32px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04); }
+
+    /* ── Stats ── */
+    .stats {
+      padding: 60px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+    .stat {
+      text-align: center;
+      padding: 20px;
+      border-right: 1px solid var(--border);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label { color: var(--muted); font-size: 0.875rem; margin-top: 4px; }
+
+    /* ── Section titles ── */
+    section { padding: 100px 0; }
+    .section-eyebrow {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .section-sub { color: var(--muted); max-width: 560px; line-height: 1.7; margin-bottom: 60px; }
+
+    /* ── Services grid ── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .service-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(108,99,255,0.06), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .service-card:hover { border-color: rgba(108,99,255,0.4); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+    .service-card:hover::before { opacity: 1; }
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+    .icon-purple { background: rgba(108,99,255,0.15); }
+    .icon-cyan   { background: rgba(0,212,255,0.12); }
+    .icon-pink   { background: rgba(255,107,107,0.12); }
+    .icon-green  { background: rgba(52,211,153,0.12); }
+    .icon-orange { background: rgba(251,146,60,0.12); }
+    .icon-blue   { background: rgba(59,130,246,0.12); }
+
+    .service-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+    .service-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.65; }
+
+    /* ── Products ── */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    .product-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .product-card:hover { border-color: rgba(108,99,255,0.4); box-shadow: 0 16px 48px rgba(0,0,0,0.35); }
+    .product-glow {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.12;
+      top: -80px;
+      right: -80px;
+    }
+    .product-card:first-child .product-glow { background: var(--accent); }
+    .product-card:last-child  .product-glow { background: var(--accent2); }
+
+    .product-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+    .tag-purple { background: rgba(108,99,255,0.15); color: #a09bff; border: 1px solid rgba(108,99,255,0.3); }
+    .tag-cyan   { background: rgba(0,212,255,0.12);  color: #4dd9f5; border: 1px solid rgba(0,212,255,0.3); }
+
+    .product-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+    .product-card p { color: var(--muted); line-height: 1.7; margin-bottom: 24px; }
+    .product-features { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .product-features li {
+      font-size: 0.875rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .product-features li::before { content: '→'; color: var(--accent2); font-weight: 600; }
+
+    /* ── CTA ── */
+    .cta-section {
+      text-align: center;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .cta-inner {
+      padding: 100px 0;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .cta-inner h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .cta-inner p { color: var(--muted); line-height: 1.7; margin-bottom: 36px; }
+
+    /* ── Footer ── */
+    footer {
+      padding: 40px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .products-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat { border-bottom: 1px solid var(--border); }
+      .stat:nth-child(even) { border-right: none; }
+      .nav-links, .btn-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background blobs -->
+  <div class="blobs">
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+  </div>
+
+  <!-- Nav -->
+  <nav>
+    <div class="nav-inner">
+      <a class="logo" href="#">A Complex World</a>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#products">Produkte</a></li>
+        <li><a href="#contact">Kontakt</a></li>
+      </ul>
+      <a class="btn-nav" href="#contact">Gespräch buchen</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="badge">Full-Service IT-Agentur · Berlin</div>
+      <h1>Wir beherrschen die Technik,<br /><span>damit Sie sich auf Ihre Vision konzentrieren können.</span></h1>
+      <p>Von der ersten Idee bis zum fertigen Produkt — Softwareentwicklung, Design, KI-Strategie und Infrastruktur aus einer Hand.</p>
+      <div class="hero-cta">
+        <a class="btn-primary" href="#contact">Projekt starten</a>
+        <a class="btn-secondary" href="#services">Unsere Services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="stat-num">50+</div>
+          <div class="stat-label">Projekte abgeliefert</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">8+</div>
+          <div class="stat-label">Jahre Erfahrung</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Eigene Produkte</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">In-House entwickelt</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Services -->
+  <section id="services">
+    <div class="container">
+      <p class="section-eyebrow">Was wir tun</p>
+      <h2 class="section-title">Alles aus einer Hand</h2>
+      <p class="section-sub">Von der Strategie über Design bis zur fertigen Infrastruktur — wir decken den kompletten Tech-Stack ab.</p>
+      <div class="services-grid">
+
+        <div class="service-card">
+          <div class="service-icon icon-purple">💻</div>
+          <h3>Softwareentwicklung</h3>
+          <p>Maßgeschneiderte Web- und Desktop-Anwendungen, die skalieren. Clean Code, moderne Architekturen, langfristig wartbar.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon icon-cyan">🎨</div>
+          <h3>Webdesign &amp; UX</h3>
+          <p>Interfaces, die nicht nur gut aussehen — sondern konvertieren. Von Wireframe bis zur fertigen UI, nutzerzentriert gedacht.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon icon-pink">🔧</div>
+          <h3>Technisches Consulting</h3>
+          <p>Technologieauswahl, Architekturentscheidungen, Code Reviews. Wir helfen Ihnen, die richtigen Entscheidungen zum richtigen Zeitpunkt zu treffen.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon icon-green">🤖</div>
+          <h3>KI-Strategie</h3>
+          <p>LLM-Integration, Automatisierung, KI-gestützte Workflows. Wir bringen künstliche Intelligenz in Ihr Unternehmen — pragmatisch und messbar.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon icon-orange">☁️</div>
+          <h3>Hosting &amp; Infrastruktur</h3>
+          <p>Zuverlässiges Hosting, CI/CD-Pipelines, Cloud-Infrastruktur. Ihre Anwendungen laufen stabil, sicher und skalierbar.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon icon-blue">📱</div>
+          <h3>Mobile Apps</h3>
+          <p>Native iOS- und Android-Apps sowie Cross-Platform-Lösungen. Von der App-Idee bis zum Store-Launch — alles aus einer Hand.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section id="products" style="padding-top: 0;">
+    <div class="container">
+      <p class="section-eyebrow">Eigene Produkte</p>
+      <h2 class="section-title">Gebaut von uns, genutzt von vielen</h2>
+      <p class="section-sub">Neben Kundenprojekten entwickeln wir eigene Softwareprodukte — mit dem gleichen Anspruch an Qualität und Nutzererlebnis.</p>
+      <div class="products-grid">
+
+        <div class="product-card">
+          <div class="product-glow"></div>
+          <span class="product-tag tag-purple">Mobile App</span>
+          <h3>Neon Prophecy</h3>
+          <p>Eine App, die Kreativität und Technologie verbindet. Neon Prophecy bietet ein einzigartiges, immersives Erlebnis — designed für eine neue Generation von Nutzern.</p>
+          <ul class="product-features">
+            <li>iOS &amp; Android nativ</li>
+            <li>Einzigartiges Nutzererlebnis</li>
+            <li>Regelmäßige Updates &amp; neue Features</li>
+          </ul>
+        </div>
+
+        <div class="product-card">
+          <div class="product-glow"></div>
+          <span class="product-tag tag-cyan">Management-Software</span>
+          <h3>Planeria</h3>
+          <p>Die smarte Management-Lösung für moderne Teams. Planeria verbindet Projektplanung, Ressourcenmanagement und Reporting in einer intuitiven Oberfläche.</p>
+          <ul class="product-features">
+            <li>Intuitives Projektmanagement</li>
+            <li>Team- &amp; Ressourcenplanung</li>
+            <li>Echtzeit-Reporting &amp; Analytics</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="contact" class="cta-section" style="padding: 0;">
+    <div class="container">
+      <div class="cta-inner">
+        <p class="section-eyebrow" style="margin-bottom: 16px;">Bereit loszulegen?</p>
+        <h2>Ihr nächstes Projekt wartet.</h2>
+        <p>Erzählen Sie uns von Ihrer Idee — wir bringen sie zum Leben. Kein Bullshit, einfach liefern.</p>
+        <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+          <a class="btn-primary" href="mailto:hello@a-complex-world.de">hello@a-complex-world.de</a>
+          <a class="btn-secondary" href="https://a-complex-world.de">Website besuchen</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>© 2024 A Complex World GmbH · <a href="#">Impressum</a> · <a href="#">Datenschutz</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>
